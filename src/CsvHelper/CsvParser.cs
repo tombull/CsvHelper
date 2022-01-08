@@ -419,10 +419,23 @@ namespace CsvHelper
 					}
 					else
 					{
-						if (c == quote || c == escape)
+						if (inEscape)
+						{
+							inEscape = false;
+
+							continue;
+						}
+
+						if (c == escape)
+						{
+							inEscape = true;
+
+							continue;
+						}
+						else if (c == quote)
 						{
 							// If the field isn't quoted but contains a
-							// quote or escape, it's has bad data.
+							// quote, it's has bad data.
 							fieldIsBadData = true;
 						}
 					}
